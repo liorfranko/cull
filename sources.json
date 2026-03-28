@@ -27,6 +27,24 @@
       "last_checked": null,
       "last_checked_commit": null,
       "last_imported": null
+    },
+    {
+      "name": "anthropics-skills",
+      "url": "https://github.com/anthropics/skills",
+      "branch": "main",
+      "description": "Official Anthropic skills: docx, pdf, pptx, frontend-design, claude-api, mcp-builder, webapp-testing and more (105k stars)",
+      "last_checked": null,
+      "last_checked_commit": null,
+      "last_imported": null
+    },
+    {
+      "name": "awesome-claude-skills",
+      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "branch": "main",
+      "description": "Curated collection: skill-creator, langsmith, brand-guidelines, competitive-ads, resume, webapp-testing and 25+ more (49k stars)",
+      "last_checked": null,
+      "last_checked_commit": null,
+      "last_imported": null
     }
   ]
 }

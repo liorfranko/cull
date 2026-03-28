@@ -41,13 +41,15 @@ Every day someone posts "this skill will boost your Claude Code by 10x." There's
 
 ## Tracked sources
 
-`sources.json` ships with three curated starter sources:
+`sources.json` ships with five curated starter sources:
 
 | Name | Repo | What's in it |
 |---|---|---|
 | `superpowers` | obra/superpowers | Workflow skills: brainstorm, plan, TDD, debug, code review |
 | `wshobson-agents` | wshobson/agents | Agent teams, parallel debugging, incident response |
 | `everything-claude-code` | affaan-m/everything-claude-code | Hooks, agents, session management, rules |
+| `anthropics-skills` | anthropics/skills | Official Anthropic skills: docx, pdf, pptx, frontend-design, claude-api, mcp-builder |
+| `awesome-claude-skills` | ComposioHQ/awesome-claude-skills | Curated community collection: skill-creator, langsmith, brand-guidelines and 25+ more |
 
 Add your own by editing `sources.json`.
 
@@ -77,11 +79,6 @@ You always know where a capability came from, at what commit, and how it was ada
 ## Fork it
 
 `cull` is designed to be forked. The marketplace infrastructure (`.claude-plugin/`, `plugins/`, `sources.json`) is the template — swap in your own skills, point `sources.json` at your org's repos, and you have a private capability registry for your team.
-
-## Roadmap
-
-- [ ] Support for non-standard repo layouts
-- [ ] Private repo support
 
 ## License
 
