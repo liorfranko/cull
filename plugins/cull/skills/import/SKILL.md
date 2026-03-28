@@ -1,6 +1,6 @@
 ---
 name: import
-description: Import a Claude Code capability (skill, agent, hook, rule, context) from a GitHub repo into your local .claude/ directory, with adaptation strategy selection and provenance tracking
+description: Use this skill to import a Claude Code capability (skill, agent, hook, rule, context) from a GitHub repo into your local .claude/ directory. Handles adaptation strategy selection (verbatim through full rewrite), correct path placement, and provenance tracking via upstream.yaml. Invoke whenever the user wants to import, fetch, grab, or add a capability from an external repo.
 ---
 
 # /import
@@ -47,7 +47,7 @@ COMMIT_HASH=$(git -C "$TMPDIR_IMPORT" rev-parse HEAD)
 
 Clean up on exit (success or failure):
 ```bash
-trap "rm -rf $TMPDIR_IMPORT" EXIT
+trap "rm -rf '$TMPDIR_IMPORT'" EXIT
 ```
 
 ### 3. Read the upstream capability
@@ -56,7 +56,22 @@ Check that `<capability-path>` exists in the cloned repo. If not, report the err
 
 Display the upstream file content to the user.
 
-### 4. Ask for adaptation strategy
+### 4. Determine local target path
+
+Use this mapping to determine where to place the file. Resolve this before asking about adaptation — the user may want to rename, and you need the target path for the collision check.
+
+| Upstream path pattern | Local target |
+|---|---|
+| `skills/*/SKILL.md` | `.claude/skills/<name>/SKILL.md` |
+| `agents/*.md` | `.claude/agents/<name>.md` |
+| `hooks/**/*.js` | `.claude/hooks/<name>.js` |
+| `rules/<category>/<name>.md` | `.claude/rules/<category>/<name>.md` |
+| `rules/<name>.md` (flat) | Ask user for category, then `.claude/rules/<category>/<name>.md` |
+| `contexts/*.md` | `.claude/contexts/<name>.md` |
+
+If the path matches none of the patterns, ask the user where to place it.
+
+### 5. Ask for adaptation strategy
 
 Present the five strategies and ask the user to choose one:
 
@@ -74,21 +89,6 @@ Apply the chosen strategy:
 - **fork-and-extend**: for each heading/section, ask: keep / modify / drop / add
 - **cherry-pick**: show numbered section list, user selects by number
 - **rewrite**: summarize the upstream intent, draft new content, show to user for approval
-
-### 5. Determine local target path
-
-Use this mapping to determine where to place the file:
-
-| Upstream path pattern | Local target |
-|---|---|
-| `skills/*/SKILL.md` | `.claude/skills/<name>/SKILL.md` |
-| `agents/*.md` | `.claude/agents/<name>.md` |
-| `hooks/**/*.js` | `.claude/hooks/<name>.js` |
-| `rules/<category>/<name>.md` | `.claude/rules/<category>/<name>.md` |
-| `rules/<name>.md` (flat) | Ask user for category, then `.claude/rules/<category>/<name>.md` |
-| `contexts/*.md` | `.claude/contexts/<name>.md` |
-
-If the path matches none of the patterns, ask the user where to place it.
 
 ### 6. Handle name collisions
 
@@ -125,14 +125,16 @@ mkdir -p <target-directory>
 
 Write:
 1. The capability file at the target path
-2. `upstream.yaml` alongside it (same directory)
+2. The provenance sidecar alongside it. For capabilities in their own directory (skills: `skills/<name>/`), name it `upstream.yaml`. For capabilities that are flat files in a shared directory (agents: `.claude/agents/<name>.md`, hooks, contexts), name it `<name>.upstream.yaml` in the same directory — this avoids collisions when multiple capabilities of the same type are imported.
 
 ### 9. Update `sources.json`
 
 - If the source repo is not yet tracked: add a new entry. For ad-hoc URLs, prompt the user for a short `name` and `description`; set `branch` to `main` and `last_imported` to today's date (ISO 8601).
 - If already tracked: update `last_imported` to today's date.
 
-## `upstream.yaml` Schema
+## Provenance Sidecar Schema
+
+The sidecar file is named `upstream.yaml` (for skills in their own directory) or `<name>.upstream.yaml` (for flat-file capabilities like agents, hooks, contexts).
 
 ```yaml
 source:
@@ -154,7 +156,7 @@ adaptation:
 last_synced: 2026-03-28
 ```
 
-For `adopt-as-is`: `sections_modified` and `sections_added` are `[]`.
+For `adopt-as-is`: `sections_preserved` lists all top-level headings from the file; `sections_modified` and `sections_added` are `[]`.
 For `rewrite`: all three section lists are `[]`; describe what was taken as inspiration in `summary`.
 
 ## Error Handling

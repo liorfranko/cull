@@ -1,0 +1,47 @@
+{
+  "skill_name": "cull",
+  "evals": [
+    {
+      "id": 1,
+      "skill": "explore",
+      "prompt": "I want to see what capabilities are available in https://github.com/obra/superpowers — can you explore it and tell me what I can import from there?",
+      "expected_output": "A markdown table listing capabilities found (skills, agents, etc.) with new/existing/upgradable classification. Should handle the clone, scan, compare against local .claude/, and clean up the tmp dir. Should note that superpowers is not yet tracked in sources.json.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "skill": "explore",
+      "prompt": "Explore the superpowers source from my sources.json and show me what I can upgrade.",
+      "expected_output": "Should resolve 'superpowers' from sources.json, clone the repo, produce capability table. Should gracefully handle if sources.json not found or name not present.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "skill": "import",
+      "prompt": "Import skills/brainstorming/SKILL.md from superpowers into my project.",
+      "expected_output": "Should clone the repo, show the file, ask for adaptation strategy, determine target path (.claude/skills/brainstorming/SKILL.md), check for collisions, show review summary with upstream.yaml schema, ask for confirmation before writing.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "skill": "import",
+      "prompt": "I want to grab the code-reviewer agent from https://github.com/wshobson/agents — import agents/code-reviewer.md for me.",
+      "expected_output": "Should use the URL directly, clone it, verify the path exists, walk through adaptation strategy, map to .claude/agents/code-reviewer.md, check collisions, show upstream.yaml preview, confirm before writing.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "skill": "sync",
+      "prompt": "Check if any of my imported capabilities have updates from their upstream sources.",
+      "expected_output": "Should read sources.json, call gh api for commits, find upstream.yaml files, classify changes (clean merge / potential conflict / no impact / manual-review for rewrites), present sync report table, process apply/skip/manual-review decisions, update sources.json last_checked after.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "skill": "sync",
+      "prompt": "Run /sync — this is my first time syncing, none of my sources have been checked before.",
+      "expected_output": "Should handle null last_checked gracefully (fetch last 30 commits), still produce a sync report, update sources.json after. Should report error clearly if gh is not authenticated.",
+      "files": []
+    }
+  ]
+}

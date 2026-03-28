@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Explore a GitHub repo to discover importable Claude Code capabilities (skills, agents, hooks, rules, contexts) and compare against your local .claude/ directory
+description: Use this skill to explore a GitHub repo and discover importable Claude Code capabilities (skills, agents, hooks, rules, contexts) — compares what the repo has against your local .claude/ directory and classifies each capability as new, existing, or upgradable. Invoke whenever the user wants to browse, scan, or see what a GitHub repo has to offer for Claude Code.
 ---
 
 # /explore
@@ -24,17 +24,17 @@ Where `<source>` is either:
 ### 1. Resolve the source URL
 
 - If `<source>` starts with `https://`, use it directly as the clone URL.
-- If `<source>` is a short name, read `sources.json` at the project root and look up the matching entry's `url` field.
+- If `<source>` is a short name, look for `sources.json` in the current working directory (walk up parent directories if not found). Look up the matching entry's `url` field.
 - If neither matches, print usage and exit.
 
 ### 2. Clone the repo
 
 ```bash
 TMPDIR_CLONE=$(mktemp -d /tmp/cull-explore-XXXXXX)
-git clone --depth 1 <url> "$TMPDIR_CLONE"
+timeout 60 git clone --depth 1 <url> "$TMPDIR_CLONE"
 ```
 
-- Enforce a **60-second timeout**. If it fires, report the error, clean up, and exit.
+- If `timeout` exits with code 124, report timeout, clean up, and exit.
 - On any clone failure (auth error, repo not found, timeout), report the error and suggest checking the URL.
 
 ### 3. Scan for capabilities
@@ -65,7 +65,7 @@ For each discovered capability, check whether a file exists locally at the corre
 | Skill | `.claude/skills/<name>/SKILL.md` |
 | Agent | `.claude/agents/<name>.md` |
 | Hook | `.claude/hooks/<name>.js` |
-| Rule | `.claude/rules/<category>/<name>.md` |
+| Rule | `.claude/rules/<category>/<name>.md` where `<category>` is the first subdirectory under `rules/` in the upstream path, and `<name>` is the filename without extension |
 | Context | `.claude/contexts/<name>.md` |
 
 Classification:
