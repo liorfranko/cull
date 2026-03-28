@@ -1,13 +1,13 @@
 ---
 name: import
-description: Use this skill to import a Claude Code capability (skill, agent, hook, rule, context) from a GitHub repo into your local .claude/ directory. Handles adaptation strategy selection (verbatim through full rewrite), correct path placement, and provenance tracking via upstream.yaml. Invoke whenever the user wants to import, fetch, grab, or add a capability from an external repo.
+description: Use this skill to import a Claude Code capability (skill, agent, hook) from a GitHub repo into your local .claude/ directory. Handles adaptation strategy selection (verbatim through full rewrite), correct path placement, and provenance tracking via upstream.yaml. Invoke whenever the user wants to import, fetch, grab, or add a capability from an external repo.
 ---
 
 # /import
 
 ## Purpose
 
-Import a capability from an external GitHub repo into your local project. Walks you through choosing how to adapt the upstream content (verbatim copy through full rewrite), places the file in the correct `.claude/` directory, writes a provenance sidecar (`upstream.yaml`), and updates `sources.json`.
+Import a skill, agent, or hook from an external GitHub repo into your local project. Walks you through choosing how to adapt the upstream content (verbatim copy through full rewrite), places the file in the correct `.claude/` directory, writes a provenance sidecar (`upstream.yaml`), and updates `sources.json`.
 
 ## Usage
 
@@ -65,9 +65,6 @@ Use this mapping to determine where to place the file. Resolve this before askin
 | `skills/*/SKILL.md` | `.claude/skills/<name>/SKILL.md` |
 | `agents/*.md` | `.claude/agents/<name>.md` |
 | `hooks/**/*.js` | `.claude/hooks/<name>.js` |
-| `rules/<category>/<name>.md` | `.claude/rules/<category>/<name>.md` |
-| `rules/<name>.md` (flat) | Ask user for category, then `.claude/rules/<category>/<name>.md` |
-| `contexts/*.md` | `.claude/contexts/<name>.md` |
 
 If the path matches none of the patterns, ask the user where to place it.
 
@@ -125,7 +122,7 @@ mkdir -p <target-directory>
 
 Write:
 1. The capability file at the target path
-2. The provenance sidecar alongside it. For capabilities in their own directory (skills: `skills/<name>/`), name it `upstream.yaml`. For capabilities that are flat files in a shared directory (agents: `.claude/agents/<name>.md`, hooks, contexts), name it `<name>.upstream.yaml` in the same directory — this avoids collisions when multiple capabilities of the same type are imported.
+2. The provenance sidecar alongside it. For capabilities in their own directory (skills: `skills/<name>/`), name it `upstream.yaml`. For flat-file capabilities (agents, hooks), name it `<name>.upstream.yaml` in the same directory — this avoids collisions when multiple capabilities of the same type are imported.
 
 ### 9. Update `sources.json`
 
@@ -134,7 +131,7 @@ Write:
 
 ## Provenance Sidecar Schema
 
-The sidecar file is named `upstream.yaml` (for skills in their own directory) or `<name>.upstream.yaml` (for flat-file capabilities like agents, hooks, contexts).
+The sidecar file is named `upstream.yaml` (for skills in their own directory) or `<name>.upstream.yaml` (for flat-file capabilities like agents and hooks).
 
 ```yaml
 source:

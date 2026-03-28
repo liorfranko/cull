@@ -1,13 +1,13 @@
 ---
 name: explore
-description: Use this skill to explore a GitHub repo and discover importable Claude Code capabilities (skills, agents, hooks, rules, contexts) — compares what the repo has against your local .claude/ directory and classifies each capability as new, existing, or upgradable. Invoke whenever the user wants to browse, scan, or see what a GitHub repo has to offer for Claude Code.
+description: Use this skill to explore a GitHub repo and discover importable Claude Code capabilities (skills, agents, hooks) — compares what the repo has against your local .claude/ directory and classifies each capability as new, existing, or upgradable. Invoke whenever the user wants to browse, scan, or see what a GitHub repo has to offer for Claude Code.
 ---
 
 # /explore
 
 ## Purpose
 
-Discover what a GitHub repository offers in terms of Claude Code capabilities — skills, agents, hooks, rules, and contexts — and compare against what you already have locally. The output tells you exactly what is new, what you already have, and what can be upgraded.
+Discover what a GitHub repository offers in terms of Claude Code capabilities — skills, agents, and hooks — and compare against what you already have locally. The output tells you exactly what is new, what you already have, and what can be upgraded.
 
 ## Usage
 
@@ -46,8 +46,6 @@ Walk the cloned repo for these path patterns (in order):
 | `skills/*/SKILL.md` | Skill |
 | `agents/*.md` | Agent |
 | `hooks/**/*.js` or `scripts/hooks/*.js` | Hook |
-| `rules/**/*.md` (any depth) | Rule |
-| `contexts/*.md` | Context |
 | `.claude-plugin/plugin.json` | Plugin |
 
 For each match, extract:
@@ -65,8 +63,6 @@ For each discovered capability, check whether a file exists locally at the corre
 | Skill | `.claude/skills/<name>/SKILL.md` |
 | Agent | `.claude/agents/<name>.md` |
 | Hook | `.claude/hooks/<name>.js` |
-| Rule | `.claude/rules/<category>/<name>.md` where `<category>` is the first subdirectory under `rules/` in the upstream path, and `<name>` is the filename without extension |
-| Context | `.claude/contexts/<name>.md` |
 
 Classification:
 - **new** — no local file with matching type + name
