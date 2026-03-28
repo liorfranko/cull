@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "repositories": [
+    {
+      "name": "superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "branch": "main",
+      "description": "Workflow skills: brainstorm, plan, execute, TDD, debug, code review",
+      "last_checked": null,
+      "last_checked_commit": null,
+      "last_imported": null
+    },
+    {
+      "name": "wshobson-agents",
+      "url": "https://github.com/wshobson/agents",
+      "branch": "main",
+      "description": "Agent teams, parallel debugging, incident response, python skills",
+      "last_checked": null,
+      "last_checked_commit": null,
+      "last_imported": null
+    },
+    {
+      "name": "everything-claude-code",
+      "url": "https://github.com/affaan-m/everything-claude-code",
+      "branch": "main",
+      "description": "Hooks, agents, session management, rules, project detection",
+      "last_checked": null,
+      "last_checked_commit": null,
+      "last_imported": null
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "cull",
+    "description": "Browse and import Claude Code capabilities from external sources",
+    "version": "0.1.0",
+    "marketplace_source": "liorfranko/cull",
+    "plugin_id": "cull@cull"
+  }
+]

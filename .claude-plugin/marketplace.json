@@ -1,0 +1,19 @@
+{
+  "name": "cull",
+  "owner": {
+    "name": "liorfranko"
+  },
+  "metadata": {
+    "description": "A plugin manager for Claude Code. Browse, import, and maintain skills and agents from any GitHub repo.",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "cull",
+      "source": "./plugins/cull",
+      "description": "Browse and import Claude Code capabilities from external sources",
+      "version": "0.1.0",
+      "keywords": ["skills", "agents", "import", "marketplace", "curation"]
+    }
+  ]
+}
