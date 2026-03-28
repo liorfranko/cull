@@ -12,7 +12,7 @@ Every day someone posts "this skill will boost your Claude Code by 10x." There's
 
 ## What it does
 
-- **`/explore`** — give it any GitHub repo URL (or a name from your tracked sources), and it shows you exactly what capabilities are inside: skills, agents, hooks, rules, contexts. Compared against what you already have locally.
+- **`/explore`** — give it any GitHub repo URL (or a name from your tracked sources), and it shows you exactly what capabilities are inside: skills, agents, and hooks. Compared against what you already have locally.
 - **`/import`** — pick a capability, choose how to adapt it (verbatim copy, light edits, section-by-section, or full rewrite), and it places the file in the right `.claude/` directory with a provenance sidecar so you always know where it came from.
 - **`/sync`** — check all your tracked sources for updates to capabilities you've already imported. Get a per-capability report and decide: apply the update, skip it, or flag for manual review.
 
